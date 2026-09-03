@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Meru-Prastāra | Pascal's Triangle &amp; Dynamic Programming</title>
+<meta name="description" content="An educational demonstration of Meru-Prastāra, the ancient Indian combinatorial method, as Pascal's Triangle and a Dynamic Programming model." />
+
+<!-- Google Fonts: display face echoes carved manuscript lettering, body face stays clean and readable, mono face carries the code/CS voice -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Yatra+One&family=Poppins:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+<!-- ============ LOADING SCREEN ============ -->
+<div id="loading-screen" aria-hidden="true">
+  <div class="loader-glyph">
+    <svg viewBox="0 0 100 90" width="90" height="80">
+      <polygon points="50,4 96,86 4,86" fill="none" stroke="var(--gold)" stroke-width="3"/>
+      <text x="50" y="60" text-anchor="middle" font-family="'Yatra One', serif" font-size="30" fill="var(--gold)">1</text>
+    </svg>
+  </div>
+  <p>असेम्ब्लिंग मेरु-प्रस्तार…</p>
+  <span class="loader-sub">Loading Meru-Prastāra</span>
+</div>
+
+<!-- ============ NAVIGATION ============ -->
+<nav id="navbar">
+  <div class="nav-brand">
+    <span class="brand-mark">△</span>
+    <span class="brand-text">Meru-Prastāra</span>
+  </div>
+
+  <button id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+
+  <ul id="nav-links">
+    <li><a href="#home" class="nav-link">Home</a></li>
+    <li><a href="#about" class="nav-link">About</a></li>
+    <li><a href="#generator" class="nav-link">Generator</a></li>
+    <!-- <li><a href="#combination" class="nav-link">Combination</a></li> -->
+    <li><a href="#applications" class="nav-link">Applications</a></li>
+    <li><a href="#algorithm" class="nav-link">Algorithm</a></li>
+    <li><a href="#quiz" class="nav-link">Quiz</a></li>
+    <li><a href="#testcases" class="nav-link">Test Cases</a></li>
+    <!-- <li><a href="#viva" class="nav-link">Viva</a></li> -->
+    <li><a href="#conclusion" class="nav-link">Conclusion</a></li>
+  </ul>
+
+  <div class="nav-tools">
+    <div class="search-wrap">
+      <input type="text" id="site-search" placeholder="Search inside project…" aria-label="Search inside project" />
+      <div id="search-results" class="search-results" hidden></div>
+    </div>
+    <button id="theme-toggle" title="Toggle dark / light mode" aria-label="Toggle theme">
+      <span id="theme-icon">🌙</span>
+    </button>
+  </div>
+</nav>
+
+<main>
+
+<!-- ============ HOME ============ -->
+<section id="home" class="section hero">
+  <div class="hero-bg" aria-hidden="true"></div>
+  <div class="hero-content">
+    <h1 class="hero-title">Meru-Prastāra <span class="as">as</span><br/>Pascal's Triangle &amp; a<br/>Dynamic Programming Model</h1>
+    <p class="hero-sub">Ancient Indian Knowledge System implemented using Modern Computer Science.</p>
+    <div class="hero-actions">
+      <button class="btn btn-primary" data-scroll="#about">Explore</button>
+      <button class="btn btn-ghost" data-scroll="#generator">Generate Triangle</button>
+    </div>
+  </div>
+  <div class="hero-meru" aria-hidden="true">
+    <div id="hero-triangle" class="mountain-triangle"></div>
+    <span class="hero-meru-caption">मेरु — "the mountain", the oldest name for this figure</span>
+  </div>
+  <button class="scroll-cue" data-scroll="#about" aria-label="Scroll to About">⌄</button>
+</section>
+
+<!-- ============ ABOUT ============ -->
+<section id="about" class="section">
+  <div class="section-head">
+    <p class="eyebrow">01 — Origins</p>
+    <h2>About Meru-Prastāra</h2>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-text">
+      <h3>What is Meru-Prastāra?</h3>
+      <p><strong>Meru-Prastāra</strong> ("the expansion of the mountain") is a triangular tabulation method used in classical Indian prosody (<em>Chandaḥśāstra</em>) to enumerate every possible arrangement of light (<em>laghu</em>) and heavy (<em>guru</em>) syllables in a metrical line of a given length. Each row of the figure lists, in order, the number of syllable-patterns containing 0, 1, 2, … heavy syllables — the same integers that later appear in Europe as the entries of Pascal's Triangle.</p>
+
+      <h3>Pingala <span class="era">(c. 3rd–2nd century BCE)</span></h3>
+      <p>The sage <strong>Ācārya Piṅgala</strong>, in his <em>Chandaḥśāstra</em>, first described the rule for building this triangular table to count metrical patterns, along with the <em>Prastāra</em> (enumeration), <em>Naṣṭa</em> and <em>Uddiṣṭa</em> (encoding/decoding) algorithms — procedures that read like specifications for array-based algorithms nearly two thousand years before computers existed.</p>
+
+      <h3>Halāyudha <span class="era">(10th century CE)</span></h3>
+      <p>Writing a commentary on Piṅgala's text, <strong>Halāyudha</strong> named the triangular figure <strong>Meru-Prastāra</strong> and stated its generating rule explicitly: every interior number is the sum of the two numbers above it. This is, verbatim, the recurrence relation used in the modern Dynamic Programming solution for binomial coefficients.</p>
+
+      <h3>Why it is important</h3>
+      <ul class="check-list">
+        <li>It shows a complete, rule-based, tabular algorithm recorded in India over a millennium before Blaise Pascal (1653).</li>
+        <li>It demonstrates that "building today's row from yesterday's row" — the core idea of Dynamic Programming — is an old, well-understood technique in Indian mathematics.</li>
+        <li>It connects linguistics (metre), combinatorics (counting) and computation (algorithmic rule) in a single figure.</li>
+      </ul>
+    </div>
+
+    <div class="about-illustration">
+      <div class="meru-plate">
+        <div id="about-triangle" class="mountain-triangle small"></div>
+      </div>
+      <p class="caption">The first 7 rows of Meru-Prastāra, rendered as a stepped temple-mountain — each tablet a syllable-count.</p>
+    </div>
+  </div>
+
+  <!-- IKS -> CS MAPPING TABLE -->
+  <div class="mapping-block">
+    <h3>IKS → Computer Science Mapping</h3>
+    <div class="table-wrap">
+      <table class="mapping-table">
+        <thead>
+          <tr><th>Indian Knowledge System</th><th>Computer Science Equivalent</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Meru-Prastāra</td><td>Pascal's Triangle</td></tr>
+          <tr><td>Number Arrangement</td><td>2D Array / Jagged Array</td></tr>
+          <tr><td>Rule-Based Calculation (Halāyudha's sum rule)</td><td>Algorithm</td></tr>
+          <tr><td>Built from the Previous Row</td><td>Dynamic Programming (Optimal Substructure)</td></tr>
+          <tr><td>Pattern Expansion Across Rows</td><td>Combinatorics (nCr)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- ============ GENERATOR ============ -->
+<section id="generator" class="section alt">
+  <div class="section-head">
+    <p class="eyebrow">02 — Build It</p>
+    <h2>Interactive Meru-Prastāra Generator</h2>
+    <p class="section-lede">Enter the number of rows to generate. Every row is built purely from the row above it — watch the Dynamic Programming table grow live.</p>
+  </div>
+
+  <div class="generator-controls">
+    <label for="row-input">Number of rows</label>
+    <input type="text" id="row-input" placeholder="e.g. 10" inputmode="numeric" autocomplete="off" />
+    <button id="generate-btn" class="btn btn-primary">Generate</button>
+    <button id="clear-btn" class="btn btn-ghost">Clear</button>
+    <button id="dp-toggle-btn" class="btn btn-outline">Show DP Build-up</button>
+  </div>
+  <p id="generator-error" class="error-msg" role="alert" aria-live="polite"></p>
+
+  <div class="triangle-output-wrap">
+    <div id="triangle-output" class="triangle-output"></div>
+  </div>
+
+  <div class="output-tools" id="output-tools" hidden>
+    <button id="copy-btn" class="btn btn-small">Copy Triangle</button>
+    <button id="print-btn" class="btn btn-small">Print</button>
+    <button id="pdf-btn" class="btn btn-small">Download as PDF</button>
+  </div>
+
+  <!-- Step by step explanation -->
+  <div class="step-explain" id="step-explain" hidden>
+    <h3>Step-by-Step Row Explanation</h3>
+    <p class="section-lede-sm">Pick any generated row to see exactly how each value is derived from the row above (Halāyudha's rule: <code>value = left-parent + right-parent</code>).</p>
+    <div id="row-picker" class="row-picker"></div>
+    <div id="row-explanation" class="row-explanation"></div>
+  </div>
+
+  <!-- DP visualisation -->
+  <div class="dp-visual" id="dp-visual" hidden>
+    <h3>Dynamic Programming Visualisation</h3>
+    <p class="section-lede-sm">DP works because Meru-Prastāra has <strong>optimal substructure</strong>: row <em>i</em> depends only on row <em>i&minus;1</em>, and <strong>overlapping subproblems</strong>: the same parent value feeds two children. There is no need to recompute — just remember (tabulate) the previous row.</p>
+    <div class="dp-stage">
+      <div class="dp-row-label">Previous row (memoised)</div>
+      <div id="dp-prev-row" class="dp-row"></div>
+      <div class="dp-row-label">Current row (being computed)</div>
+      <div id="dp-curr-row" class="dp-row"></div>
+    </div>
+    <button id="dp-play-btn" class="btn btn-outline">▶ Animate Build</button>
+    <p id="dp-explain-text" class="dp-explain-text"></p>
+  </div>
+</section>
+
+<!-- ============ COMBINATION CALCULATOR ============ -->
+<section id="combination" class="section">
+  <div class="section-head">
+    <p class="eyebrow">03 — Main Feature</p>
+    <h2>Combination Calculator — <span class="ncr">ⁿCᵣ</span></h2>
+    <p class="section-lede">This is Meru-Prastāra put to direct, practical use: any entry of the triangle is a combination value, used throughout Probability, Statistics, Machine Learning and Competitive Programming.</p>
+  </div>
+
+  <div class="combo-panel">
+    <div class="combo-inputs">
+      <label>n <input type="text" id="combo-n" inputmode="numeric" placeholder="e.g. 6" /></label>
+      <label>r <input type="text" id="combo-r" inputmode="numeric" placeholder="e.g. 2" /></label>
+      <button id="combo-calc-btn" class="btn btn-primary">Calculate nCr</button>
+      <button id="combo-gen-btn" class="btn btn-outline">Generate Meru-Prastāra for n</button>
+    </div>
+    <p id="combo-error" class="error-msg" role="alert" aria-live="polite"></p>
+
+    <div class="combo-result" id="combo-result" hidden>
+      <div class="formula-card">
+        <p class="formula">C(n, r) = n! / (r! · (n−r)!)</p>
+        <p id="combo-substituted" class="formula sub"></p>
+        <p id="combo-answer" class="answer"></p>
+      </div>
+      <ol id="combo-steps" class="combo-steps"></ol>
+    </div>
+
+    <div id="combo-triangle-wrap" class="triangle-output-wrap" hidden>
+      <div id="combo-triangle" class="triangle-output"></div>
+    </div>
+    <p class="note">This is used in Probability, Statistics, Machine Learning and Competitive Programming.</p>
+  </div>
+
+  <!-- Binomial Expansion -->
+  <div class="binomial-panel">
+    <h3>Binomial Expansion (a+b)ⁿ</h3>
+    <div class="combo-inputs">
+      <label>n <input type="text" id="binom-n" inputmode="numeric" placeholder="e.g. 4" /></label>
+      <button id="binom-btn" class="btn btn-primary">Expand</button>
+    </div>
+    <p id="binom-error" class="error-msg" role="alert" aria-live="polite"></p>
+    <div id="binom-result" class="binom-result" hidden></div>
+    <p class="note">Every coefficient in this expansion is read straight off row <em>n</em> of Meru-Prastāra.</p>
+  </div>
+<!-- 
+  Probability Demonstration -->
+  <div class="probability-panel">
+    <h3>Probability Demonstration — Coin Toss</h3>
+    <div class="combo-inputs">
+      <label>Number of tosses <input type="text" id="coin-n" inputmode="numeric" placeholder="e.g. 5" /></label>
+      <button id="coin-btn" class="btn btn-primary">Show Probabilities</button>
+    </div>
+    <p id="coin-error" class="error-msg" role="alert" aria-live="polite"></p>
+    <div id="coin-result" class="coin-result" hidden></div>
+    <p class="note">The probability of getting exactly <em>k</em> heads in <em>n</em> tosses is C(n,k) / 2ⁿ — row <em>n</em> of the triangle divided by its own total.</p>
+  </div>
+</section>
+
+<!-- ============ APPLICATIONS ============ -->
+<section id="applications" class="section alt">
+  <div class="section-head">
+    <p class="eyebrow">04 — Modern Applications</p>
+    <h2>Where This Shows Up Today</h2>
+    <p class="section-lede">Ten places the Meru-Prastāra recurrence is quietly at work in modern computing.</p>
+  </div>
+  <div id="applications-grid" class="applications-grid"></div>
+</section>
+
+<!-- ============ ALGORITHM ============ -->
+<section id="algorithm" class="section">
+  <div class="section-head">
+    <p class="eyebrow">05 — Under the Hood</p>
+    <h2>Algorithm</h2>
+  </div>
+
+  <div class="algo-grid">
+    <div class="algo-card">
+      <h3>Pseudocode</h3>
+      <pre class="code-block"><code>function buildMeruPrastara(rows):
+    triangle = empty list
+
+    for i from 0 to rows - 1:
+        row = new array of size (i + 1)
+        row[0] = 1
+        row[i] = 1                  // edges are always 1
+
+        for j from 1 to i - 1:
+            row[j] = triangle[i-1][j-1]   // left parent
+                    + triangle[i-1][j]    // right parent
+                                            // <- Halayudha's rule
+        triangle.append(row)
+
+    return triangle</code></pre>
+    </div>
+
+    <div class="algo-card">
+      <h3>Flowchart</h3>
+      <div class="flowchart" aria-label="Flowchart of the Meru-Prastara generation algorithm">
+        <div class="fc-node fc-start">Start</div>
+        <div class="fc-arrow">↓</div>
+        <div class="fc-node">Read number of rows <strong>n</strong></div>
+        <div class="fc-arrow">↓</div>
+        <div class="fc-node fc-decision">n ≤ 0 or not a number?</div>
+        <div class="fc-branch">
+          <div class="fc-branch-item"><span class="fc-tag">yes</span><div class="fc-node fc-end">Show error, stop</div></div>
+          <div class="fc-branch-item"><span class="fc-tag">no</span><div class="fc-node">Set row 0 = [1]</div></div>
+        </div>
+        <div class="fc-arrow">↓</div>
+        <div class="fc-node fc-decision">For each row i = 1 … n−1</div>
+        <div class="fc-arrow">↓</div>
+        <div class="fc-node">row[j] = prev[j−1] + prev[j] for each position</div>
+        <div class="fc-arrow">↓</div>
+        <div class="fc-node fc-decision">More rows left?</div>
+        <div class="fc-branch">
+          <div class="fc-branch-item"><span class="fc-tag">yes</span><div class="fc-node">Loop back ↑</div></div>
+          <div class="fc-branch-item"><span class="fc-tag">no</span><div class="fc-node">Render triangle</div></div>
+        </div>
+        <div class="fc-arrow">↓</div>
+        <div class="fc-node fc-end">End</div>
+      </div>
+    </div>
+
+    <div class="algo-card">
+      <h3>Complexity &amp; Limitations</h3>
+      <ul class="complexity-list">
+        <li><strong>Time Complexity:</strong> O(n²) — every one of the ~n²/2 cells is computed exactly once from its two parents.</li>
+        <li><strong>Space Complexity:</strong> O(n²) to store the full triangle; O(n) if only the current and previous rows are memoised.</li>
+        <li><strong>Limitation 1:</strong> Values grow combinatorially; beyond ~1024 rows, native 64-bit integers overflow (this app uses JavaScript <code>BigInt</code> to stay exact).</li>
+        <li><strong>Limitation 2:</strong> Rendering very large triangles (100+ rows) becomes a UI / readability problem before it becomes a computational one.</li>
+        <li><strong>Limitation 3:</strong> The naive recurrence recomputes nothing, but a single nCr lookup still costs O(n) if the whole triangle isn't cached, since each row needs the one before it.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ QUIZ ============ -->
+<section id="quiz" class="section alt">
+  <div class="section-head">
+    <p class="eyebrow">06 — Test Yourself</p>
+    <h2>Quiz</h2>
+    <p class="section-lede">10 questions, shuffled every attempt.</p>
+  </div>
+
+  <div id="quiz-start-wrap" class="quiz-start-wrap">
+    <button id="quiz-start-btn" class="btn btn-primary">Start Quiz</button>
+  </div>
+
+  <div id="quiz-app" class="quiz-app" hidden>
+    <div class="quiz-progress">
+      <span id="quiz-progress-text">Question 1 / 10</span>
+      <div class="quiz-progress-bar"><div id="quiz-progress-fill"></div></div>
+    </div>
+    <h3 id="quiz-question"></h3>
+    <div id="quiz-options" class="quiz-options"></div>
+    <button id="quiz-next-btn" class="btn btn-primary" hidden>Next</button>
+  </div>
+
+  <div id="quiz-result" class="quiz-result" hidden>
+    <h3>Your Score</h3>
+    <p id="quiz-score-text" class="quiz-score-text"></p>
+    <button id="quiz-restart-btn" class="btn btn-primary">Restart Quiz</button>
+  </div>
+</section>
+
+<!-- ============ TEST CASES ============ -->
+<section id="testcases" class="section">
+  <div class="section-head">
+    <p class="eyebrow">07 — Verification</p>
+    <h2>Test Cases</h2>
+    <p class="section-lede">Click "Run" on any case to execute it against the live generator and compare the actual result to the expected outcome.</p>
+  </div>
+  <div class="table-wrap">
+    <table class="testcase-table" id="testcase-table">
+      <thead>
+        <tr><th>#</th><th>Input</th><th>Expected</th><th>Result</th><th></th></tr>
+      </thead>
+      <tbody id="testcase-body"></tbody>
+    </table>
+  </div>
+</section>
+
+<!-- ============ VIVA ============
+<section id="viva" class="section alt">
+  <div class="section-head">
+    <p class="eyebrow">08 — Prepare</p>
+    <h2>Possible Viva Questions</h2>
+    <p class="section-lede">25 questions an examiner may ask, with model answers. Click a question to expand it.</p>
+  </div>
+  <div id="viva-accordion" class="viva-accordion"></div>
+</section> -->
+
+<!-- ============ DOCUMENTATION ============ -->
+<section id="documentation" class="section">
+  <div class="section-head">
+    <p class="eyebrow">09 — Project Report</p>
+    <h2>Documentation</h2>
+  </div>
+  <div class="doc-grid">
+    <div class="doc-card">
+      <h3>Problem Statement</h3>
+      <p>Ancient Indian prosody already solved a combinatorial enumeration problem — counting syllable patterns — using a triangular, rule-based table. This project asks: can that 2000-year-old method (Meru-Prastāra) be expressed, exactly, as a modern Computer Science artefact (an array built by Dynamic Programming), and does doing so reveal genuine CS applications?</p>
+    </div>
+    <div class="doc-card">
+      <h3>Conceptual Mapping</h3>
+      <p>Meru-Prastāra's triangular tablet arrangement is structurally identical to Pascal's Triangle; its row-from-row construction rule (Halāyudha) is structurally identical to a Dynamic Programming recurrence; its rows are literally rows of binomial coefficients, i.e. combinatorics.</p>
+    </div>
+    <div class="doc-card">
+      <h3>Algorithm</h3>
+      <p>Row 0 is seeded as <code>[1]</code>. Every subsequent row's edge values are 1; every interior value is the sum of the two values above it in the previous row. See the Algorithm section for pseudocode and a flowchart.</p>
+    </div>
+    <div class="doc-card">
+      <h3>Applications</h3>
+      <p>Dynamic Programming, AI/ML feature/kernel computations, probability and statistics, competitive programming, computer graphics (Bézier curves), binomial expansion, and combinatorial cryptography constructs. See the Applications section for details on each.</p>
+    </div>
+    <div class="doc-card">
+      <h3>Complexity</h3>
+      <p>Time: O(n²). Space: O(n²) full storage, or O(n) with row-memoisation only.</p>
+    </div>
+    <div class="doc-card">
+      <h3>Limitations</h3>
+      <p>Integer overflow beyond native precision (mitigated here with BigInt), rendering cost for very large triangles, and the fact a single nCr lookup still needs the row built up to it.</p>
+    </div>
+    <div class="doc-card doc-card-wide">
+      <h3>Conclusion</h3>
+      <p>Meru-Prastāra shows that the logical structure behind Pascal's Triangle and Dynamic Programming was documented in India by Piṅgala and named and formalised by Halāyudha, centuries before Pascal (1653). It is one clear, verifiable example of an Indian Knowledge System that maps directly onto a core Computer Science technique still used today.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CONCLUSION ============ -->
+<section id="conclusion" class="section alt conclusion-section">
+  <div class="section-head">
+    <p class="eyebrow">10 — Closing</p>
+    <h2>Conclusion</h2>
+  </div>
+  <div class="conclusion-content">
+    <p>Piṅgala's <em>Chandaḥśāstra</em> first laid out the rule for enumerating syllable patterns in a triangular table. Centuries later, Halāyudha named this figure <strong>Meru-Prastāra</strong> and stated its build rule in the exact form Computer Science now calls a <strong>Dynamic Programming recurrence</strong>: each cell equals the sum of the two cells above it. When Blaise Pascal published his <em>Traité du triangle arithmétique</em> in 1654, he was describing, independently, the same structure that Indian prosodists had already been using for over a thousand years.</p>
+    <p>This project shows that Meru-Prastāra is not a historical curiosity sitting beside Computer Science — it <strong>is</strong> a Computer Science structure, expressed in the vocabulary of classical Indian metrics. It stands as direct evidence that Indian Knowledge Systems contributed working computational ideas — arrays, recurrences, and combinatorics — to the discipline we practise today.</p>
+  </div>
+</section>
+
+</main>
+
+<footer id="footer">
+  <p>Meru-Prastāra as Pascal's Triangle &amp; Dynamic Programming Model — TY B.Sc. Computer Science, Indian Knowledge Systems Internal Project.</p>
+  <p class="footer-sub">Built with HTML5, CSS3 and vanilla JavaScript only.</p>
+</footer>
+
+<button id="back-to-top" aria-label="Back to top">↑</button>
+
+<audio id="sfx-click" preload="auto"></audio>
+
+<script src="script.js"></script>
+</body>
+</html>
